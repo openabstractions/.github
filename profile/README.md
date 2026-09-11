@@ -81,6 +81,22 @@ public release.
 Language coverage, provider capabilities and platform support vary by layer;
 each repository documents its current status and installation route.
 
+## Before you adopt any of it
+
+- **[What adopting involves](https://openabstractions.org/adopt.html)** — run it,
+  break it, call it from a program, implement it, and what the services cost.
+  Where nothing has been run from a clean machine it says so instead of printing
+  an install line.
+- **[What is proven and what is not](https://openabstractions.org/coverage.html)**
+  — which implementation of which layer carries a verdict, in which language, on
+  which platform.
+- **[The evidence](https://github.com/openabstractions/abstractions/tree/main/docs/results)**
+  — every transcript, with the script that produced it and the state of the
+  machine that ran it.
+- **Check the layer's release and package pages for available versions.**
+  Language support and distribution status differ by layer; the coverage grid
+  distinguishes tested implementations from unproven ones.
+
 Start with a layer above to use or implement a capability. Read the
 [project overview](https://github.com/openabstractions/abstractions) for the
 architecture and [research](https://github.com/openabstractions/research) for
