@@ -14,39 +14,23 @@ and behavioral contracts define what crosses the boundary: what a request means,
 what a provider promises, and how it reports progress, completion or refusal.
 The goal is common behavior, not identical-looking code in every language.
 
-## Keep the engine. Adopt the interface.
+## Adopt one capability
 
-A **provider** implements an interface. It can wrap a library an application
-already uses, call an operating-system facility, or communicate with a service.
-The interface is the agreement; the provider is how the work gets done.
+Applications use language-native clients to ask services for capabilities.
+The runtime resolves a compatible service, which owns its storage and execution.
+Start with [resolved logging in Go or C++](https://github.com/openabstractions/abstraction-facade),
+then add the capabilities the application needs. A missing service produces an
+explicit refusal or transport error.
 
-That makes adoption incremental. Start with one capability, keep an existing
-engine behind an adapter, or use one of our implementations. Applications do
-not need to adopt the whole project or install a service to use a local binding.
+Providers can wrap existing engines or OS facilities behind the same contract.
+An explicit local adoption adapter can help an existing integration migrate;
+its storage and lifetime guarantees remain visible. Durable work requires a
+provider that accepts those guarantees and retains its owner through recovery.
 
-Different providers can offer different guarantees. An in-process downloader
-cannot continue after its process exits; a suitable service-backed provider
-can. Those differences belong in declared capabilities, not surprises at the
-call site.
-
-## Services add capabilities, not prerequisites
-
-Libraries make capabilities available inside an application. Services can
-coordinate them beyond the application's lifetime: finishing background work,
-sharing resources, applying policy and recording decisions for audit.
-
-We build services and tools on the same contracts, rather than making the
-contracts depend on our products. The broader aim is a machine whose work can
-be inspected and controlled across applications, not a separate settings page
-and private implementation in every program.
-
-**Downloads are one working example.** The download layer supports resumable,
-digest-verified transfers. With the appropriate provider configured, a
-[supervisor](https://github.com/openabstractions/service-jobd) can finish the
-work after the caller exits, or a
-[Synology NAS](https://github.com/openabstractions/addon-synology) can perform
-the transfer. The application asks for a download; the provider determines how
-it is executed. [Delegation example and platform limits](https://github.com/openabstractions/abstractions/blob/main/docs/results/NAS1.txt).
+The current facade binds local services. Remote service bindings and complete
+rights-grant integration remain development work. The
+[adoption guide](https://openabstractions.org/adopt.html) separates source-build
+instructions, runtime requirements and measured evidence.
 
 ## Choose a building block
 
@@ -57,7 +41,7 @@ it is executed. [Delegation example and platform limits](https://github.com/open
 | Store bytes by content, or coordinate changes to a file | [Storage](https://github.com/openabstractions/abstraction-storage) / [Compare-and-set](https://github.com/openabstractions/abstraction-cas) |
 | Record events and observe changes | [Logging](https://github.com/openabstractions/abstraction-logging) / [Watch](https://github.com/openabstractions/abstraction-watch) |
 | Identify local callers, manage keep-awake permissions and ask users questions | [Identity](https://github.com/openabstractions/abstraction-identity) / [Rights](https://github.com/openabstractions/abstraction-rights) / [Asks](https://github.com/openabstractions/abstraction-asks) |
-| Discover available bindings for jobs, downloads, storage and logging from Go | [Facade](https://github.com/openabstractions/abstraction-facade) |
+| Resolve logging, configuration, routing and durable job services from Go or C++ | [Facade](https://github.com/openabstractions/abstraction-facade) |
 
 Model naming and resolution live in
 [Model](https://github.com/openabstractions/abstraction-model). The underlying

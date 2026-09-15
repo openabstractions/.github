@@ -25,6 +25,24 @@ Report these findings with source paths, revisions and the checks actually run.
 Distinguish a build, a passing example and a conformance result. Report a mismatch
 as a reason to defer or narrow the integration; do not invent a guarantee.
 
+### Service-client acceptance checklist
+
+For a facade integration, compile the README example as an outside consumer.
+Resolve through the runtime bootstrap, invoke the selected typed client, then
+repeat with an isolated absent bootstrap and require an explicit failure. Check
+that the application creates no provider-owned files. Keep provider deployment
+and application dependencies separate. Go's primary facade and `/client` should
+have service-client dependencies.
+
+For durable work, preserve request identity, logical owner and negotiated
+promises across lost replies. Reconcile at the original binding. Record refusal,
+unknown acceptance and terminal failure distinctly. A cancelled wait supplies no
+proof that work was cancelled.
+
+Return a concise integration report: chosen revisions, required runtime,
+capability/guarantees, compiled example, exercised success and refusal, remaining
+platform limits. Avoid marking a historical coverage record as a current run.
+
 ### Is it proven?
 
 [The coverage grid](https://openabstractions.org/coverage.html) says which
@@ -76,9 +94,10 @@ easy to miss:
   README and package metadata; verify the named artifact or tag exists before
   selecting it. A checkout that builds in our workspace does not establish that
   a package resolves independently.
-- **Bytes arriving while your application is closed is a separate install.** The
-  in-process path does not claim it and refuses to pretend, which means the
-  capability is a supervisor process you have to decide about.
+- **Service availability is part of adoption.** The primary facade resolves a
+  running service. Establish who installs and activates that runtime, how absence
+  is reported, and which accepted work survives caller exit. Explicit legacy
+  adapters have their own lifecycle and storage requirements.
 
 ### Which commits go together
 
@@ -125,10 +144,52 @@ Maintainers resolve publication ownership when incorporating the patch.
 
 ### How to test a change
 
-Run this repository's own tests — every language directory carries them — and
-then the conformance suite above, because a change that keeps one implementation
-happy and moves it away from the other two is the failure this project exists to
-catch.
+Start from the public repository root and read the affected language's README.
+It supplies package-specific build, dependency and test commands. For a Go
+module, enter its directory and run `go test ./...` with `GOWORK=off` to check
+standalone dependencies. For generated bindings, change the schema or generator
+and run its documented regeneration check. Run the relevant conformance
+scenarios using the suite instructions above.
+
+Report the exact commands, selected revisions, platform, outcomes and skipped
+checks. A missing test entrypoint or unavailable toolchain is an explicit gap.
+Include an outside-consumer check when changing packaging or public imports.
+
+### Writing a contract
+
+A new or changed `.thrift` definition answers these ten rules. They come from
+the maintainers' protocol lessons audit of 2026-09-15. Rules marked (checked)
+are enforced by `idl/inventory.py`; existing definitions that break them are
+listed in `idl/contract_rules.recorded`, and a new break fails the check.
+
+1. One outcome enum per call; refusals never travel as transport error codes.
+   A call a policy may gate reserves `forbidden`, `unavailable` and `invalid`;
+   a call addressing a record reserves `unknown`; a conditional write reserves
+   `conflict`. Name the outcome of an unreachable decision point. (checked)
+2. Every retained record states its identity and retry dimension, a retention
+   the caller can read, loss as a typed terminal state, who may retire it, and
+   what a replay reads after retirement.
+3. A failure carries a class and a typed cause. Cause enums declare
+   `unknown = "grant"` with `other`; a kind-specific cause has a namespaced
+   string slot. (checked)
+4. A catalogue of names applications will extend is open: `<owner>/<name>`,
+   registered through a revision-conditional operator call, with the generated
+   constant as a seed. A catalogue closed by rule says why with
+   `closed_by = "<rule tag>"` and reserves the next name. (checked)
+5. Every identity field names the party that asserts it and the mechanism that
+   established it. The absent-claim case is defined, and a relay appends and
+   never overwrites.
+6. Bytes larger than one control frame cross a handoff or an advertised bound
+   carried in the resource struct; a number in a doc string is a floor.
+7. Enums a reader only displays are `unknown = "grant"`; enums a reader must act
+   on are `unknown = "refuse"`; every enum says which. An incompatible record
+   change is a new versioned key. (checked)
+8. A rule names the entry point it judges; a second default for the same role
+   gets its own rule.
+9. `duplicate_keys = "refuse"`, unless the definition states why `last`.
+10. The first definition of a contract records a "none" entry in the base
+    protocol change log, and its review answers rules 1 to 6 in writing before
+    generation.
 
 ### What we owe you
 

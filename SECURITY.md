@@ -34,13 +34,13 @@ those, and a fix is not done until yours is in it.
 Every repository under `github.com/openabstractions` named `abstraction-*`,
 `service-*`, `addon-*` or `adopter-*` — today `abstraction-config`,
 `abstraction-download`, `abstraction-facade`, `abstraction-identity`,
-`abstraction-job`, `abstraction-logging`, `abstraction-model`,
+`abstraction-job`, `abstraction-logging`, `abstraction-model`, `abstraction-router`,
 `abstraction-storage`, `service-jobd`, `addon-synology`, `adopter-comfyui` —
-and `polite-monitor`. `abstraction-watch`, `abstraction-rights`,
-`abstraction-asks` and `abstraction-cas` join them at the release that creates
-them; `scripts/split.manifest` already publishes all four. The JSON reader,
-the caller-identity binding and the authorisation service are the parts that
-most deserve a look.
+and `polite-monitor`. `abstraction-watch`, `abstraction-rights`, `abstraction-asks`,
+`abstraction-cas` and `abstraction-download-over-curl` join them at the release
+that creates them; `scripts/split.manifest` already publishes all five. The JSON
+reader, the caller-identity binding and the authorisation service are the parts
+that most deserve a look.
 
 Not in scope: `abstractions`, `research` and `.github`, which hold nothing
 that runs; `appcontainer-notes`, which is private; forks of other projects,
