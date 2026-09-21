@@ -29,6 +29,21 @@ current document or workflow, and let that application show the preview and ask
 the person to apply it. Instance, context and revision checks keep the proposal
 attached to the item the person actually saw.
 
+## Available now: 0.2.0
+
+[Download 0.2.0](https://github.com/openabstractions/redist/releases/tag/v0.2.0) for Windows, Linux and macOS.
+Use one runtime to keep accepted work running, call AI providers with named
+credentials, manage application permissions, and find or activate registered
+applications. Windows includes the Panel for inspecting and managing the runtime.
+The SDK sources cover Go, C++17, Python, Rust and JavaScript; package versions
+and registry availability are documented separately by each capability.
+
+Windows x64 installation, upgrades, rollback and crash recovery passed.
+Linux amd64 installation and runtime-backed downloading passed. The macOS
+package is signed and notarised; protected service calls retain the documented
+caller-identity limitation. Windows and Linux packages are unsigned.
+[Release verification and limits](https://github.com/openabstractions/abstractions/blob/main/docs/results/release-0.2.0.md).
+
 ## Start as an application developer
 
 Use the [facade](https://github.com/openabstractions/abstraction-facade) to
@@ -44,8 +59,8 @@ Choose a capability:
 | Find and bind services | [Facade](https://github.com/openabstractions/abstraction-facade) |
 | Durable work and recovery | [Job](https://github.com/openabstractions/abstraction-job) |
 | Durable downloads | [Download](https://github.com/openabstractions/abstraction-download) |
-| Chat, embeddings, audio, images and live voice | Inference development contract; repository publication pending |
-| Named service-applied secrets | Credentials development contract; repository publication pending |
+| Chat, embeddings, audio, images, video and live voice | [Inference](https://github.com/openabstractions/abstraction-inference) |
+| Named service-applied secrets | [Credentials](https://github.com/openabstractions/abstraction-credentials) |
 | Authorized content by digest | [Storage](https://github.com/openabstractions/abstraction-storage) |
 | Configuration and provenance | [Config](https://github.com/openabstractions/abstraction-config) |
 | Exact action/resource policy | [Rights](https://github.com/openabstractions/abstraction-rights) |
