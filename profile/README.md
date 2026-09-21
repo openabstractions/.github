@@ -1,90 +1,101 @@
-# Open Abstractions
+# OpenAbstractions
 
-**Common software capabilities. Language-native interfaces. More control over
-how the work gets done.**
+**Applications ask for work. People choose what does it.**
 
-Open Abstractions builds interfaces, libraries and services for downloads,
-background work, storage, logging and other capabilities applications repeatedly
-implement for themselves. Applications can use these capabilities without being
-tied to one implementation. The people running them gain more choice over where
-work happens, what it may do, and how they observe it.
+OpenAbstractions helps an application keep a download running, call a model,
+read shared content, use a named credential, ask a person for a decision, or
+find a supported application that is already open. The application gets one API
+for each kind of work and clear outcomes when the work is unavailable or
+refused.
 
-The same concepts have APIs that fit each language. Shared records, protocols
-and behavioral contracts define what crosses the boundary: what a request means,
-what a provider promises, and how it reports progress, completion or refusal.
-The goal is common behavior, not identical-looking code in every language.
+A local runtime chooses an allowed service that meets the request. That service
+keeps shared state, credentials and recovery data. The application does not need
+the provider's private files, API key or vendor protocol.
 
-## Adopt one capability
+```text
+application -> resolve capability -> typed client -> OA service -> provider
+```
 
-Applications use language-native clients to ask services for capabilities.
-The runtime resolves a compatible service, which owns its storage and execution.
-Start with [resolved logging in Go or C++](https://github.com/openabstractions/abstraction-facade),
-then add the capabilities the application needs. A missing service produces an
-explicit refusal or transport error.
+Providers can wrap an existing engine, an operating-system facility, a resident
+runtime or a remote service. The capability contract keeps the behavior and
+typed outcomes stable across those implementations.
 
-Providers can wrap existing engines or OS facilities behind the same contract.
-An explicit local adoption adapter can help an existing integration migrate;
-its storage and lifetime guarantees remain visible. Durable work requires a
-provider that accepts those guarantees and retains its owner through recovery.
+An operator can connect an existing downloader, model engine or remote service.
+Future work can move to another provider while accepted work finishes with the
+provider that took it.
 
-The current facade binds local services. Remote service bindings and complete
-rights-grant integration remain development work. The
-[adoption guide](https://openabstractions.org/adopt.html) separates source-build
-instructions, runtime requirements and measured evidence.
+An assistant can find and open a supported editor, propose a change to the
+current document or workflow, and let that application show the preview and ask
+the person to apply it. Instance, context and revision checks keep the proposal
+attached to the item the person actually saw.
 
-## Choose a building block
+## Start as an application developer
 
-| Capability | Start here |
-|---|---|
-| Download files, resume interrupted transfers and verify their contents | [Download](https://github.com/openabstractions/abstraction-download) |
-| Track work, ownership, checkpoints and cancellation | [Job](https://github.com/openabstractions/abstraction-job) |
-| Store bytes by content, or coordinate changes to a file | [Storage](https://github.com/openabstractions/abstraction-storage) / [Compare-and-set](https://github.com/openabstractions/abstraction-cas) |
-| Record events and observe changes | [Logging](https://github.com/openabstractions/abstraction-logging) / [Watch](https://github.com/openabstractions/abstraction-watch) |
-| Identify local callers, manage keep-awake permissions and ask users questions | [Identity](https://github.com/openabstractions/abstraction-identity) / [Rights](https://github.com/openabstractions/abstraction-rights) / [Asks](https://github.com/openabstractions/abstraction-asks) |
-| Resolve logging, configuration, routing and durable job services from Go or C++ | [Facade](https://github.com/openabstractions/abstraction-facade) |
+Use the [facade](https://github.com/openabstractions/abstraction-facade) to
+resolve only the capabilities your application needs. Go, C++17, Python, Rust
+and JavaScript clients share generated contracts and native IPC. Package and
+platform coverage varies by capability; each README names its tested path and
+current limits.
 
-Model naming and resolution live in
-[Model](https://github.com/openabstractions/abstraction-model). The underlying
-job, download and storage contracts are not specific to AI.
+Choose a capability:
 
-## What makes the interfaces interoperable
+| Need | Repository |
+| --- | --- |
+| Find and bind services | [Facade](https://github.com/openabstractions/abstraction-facade) |
+| Durable work and recovery | [Job](https://github.com/openabstractions/abstraction-job) |
+| Durable downloads | [Download](https://github.com/openabstractions/abstraction-download) |
+| Chat, embeddings, audio, images and live voice | Inference development contract; repository publication pending |
+| Named service-applied secrets | Credentials development contract; repository publication pending |
+| Authorized content by digest | [Storage](https://github.com/openabstractions/abstraction-storage) |
+| Configuration and provenance | [Config](https://github.com/openabstractions/abstraction-config) |
+| Exact action/resource policy | [Rights](https://github.com/openabstractions/abstraction-rights) |
+| Questions requiring a person | [Asks](https://github.com/openabstractions/abstraction-asks) |
+| Structured events | [Logging](https://github.com/openabstractions/abstraction-logging) |
+| Model names and locations | [Model](https://github.com/openabstractions/abstraction-model) / [Router](https://github.com/openabstractions/abstraction-router) |
+| Atomic named state and change observation | [Compare-and-set](https://github.com/openabstractions/abstraction-cas) / [Watch](https://github.com/openabstractions/abstraction-watch) |
+| Native peer and server evidence | [Identity](https://github.com/openabstractions/abstraction-identity) |
 
-Contracts define the behavior. Implementations are exercised against shared
-conformance cases, including failure and recovery, rather than being considered
-compatible because their method names match. Public
-[contracts](https://github.com/openabstractions/abstraction-job/blob/main/CONTRACT.md)
-and [results](https://github.com/openabstractions/abstractions/tree/main/docs/results)
-describe the agreements and the evidence behind them.
+The [main repository](https://github.com/openabstractions/abstractions) contains
+the development runtime, integration tests, adopters and current implementation
+status.
 
-We are also developing a code generator for shared record definitions,
-encoders, decoders and message envelopes. It does not generate execution engines
-or connection management. The generator is not yet available as a standalone
-public release.
+## Start as a provider author
 
-**Apache-2.0. Experimental releases, starting with Go, Python and C++.**
-Language coverage, provider capabilities and platform support vary by layer;
-each repository documents its current status and installation route.
+Implement the generated service contract and its behavioral rules. The runtime
+can host an in-process provider, launch or attach to a registered native
+provider, or mediate a configured remote provider. A provider owns its resources
+and persistence. The service boundary supplies identity, authorization,
+credentials, bounds and typed outcomes.
 
-## Before you adopt any of it
+Contracts distinguish resolution, acceptance, progress, completion, refusal and
+unknown outcome. Durable work keeps an immutable request identity and original
+binding for reconciliation after a lost reply.
 
-- **[What adopting involves](https://openabstractions.org/adopt.html)** — run it,
-  break it, call it from a program, implement it, and what the services cost.
-  Where nothing has been run from a clean machine it says so instead of printing
-  an install line.
-- **[What is proven and what is not](https://openabstractions.org/coverage.html)**
-  — which implementation of which layer carries a verdict, in which language, on
-  which platform.
-- **[The evidence](https://github.com/openabstractions/abstractions/tree/main/docs/results)**
-  — every transcript, with the script that produced it and the state of the
-  machine that ran it.
-- **Check the layer's release and package pages for available versions.**
-  Language support and distribution status differ by layer; the coverage grid
-  distinguishes tested implementations from unproven ones.
+The [conformance suite](https://github.com/openabstractions/abstractions/tree/main/conformance)
+tests contract behavior independently of the repository implementation.
 
-Start with a layer above to use or implement a capability. Read the
-[project overview](https://github.com/openabstractions/abstractions) for the
-architecture and [research](https://github.com/openabstractions/research) for
-the prior art.
+## Evidence and release status
+
+The current integration tree has controlled and native adopter evidence across
+the principal capabilities. [Release notes](https://github.com/openabstractions/redist/releases/latest)
+list available packages, installation verification and signing state.
+
+- [Adoption guide](https://openabstractions.org/adopt.html): dependency,
+  runtime and setup expectations.
+- [Capability catalogue](https://openabstractions.org/catalogue.html): contracts,
+  languages, platforms and package routes.
+- [Coverage](https://openabstractions.org/coverage.html): the implementation,
+  revision, platform and verdict behind each claim.
+- [Recorded results](https://github.com/openabstractions/abstractions/tree/main/docs/results):
+  transcripts and their machine context.
+- [Project overview](https://github.com/openabstractions/abstractions): current
+  offering, service ownership, trust limits and source entrypoints.
+
+Pin the exact package revision you test. Read the selected repository's release
+page before adding an installation command. Historical evidence records one run
+at one revision.
+
+Apache-2.0. See the selected repository's license and dependency notices.
 
 [Governance](https://github.com/openabstractions/.github/blob/main/GOVERNANCE.md)
 and [security reporting](https://github.com/openabstractions/.github/blob/main/SECURITY.md).

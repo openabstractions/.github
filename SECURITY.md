@@ -31,25 +31,29 @@ those, and a fix is not done until yours is in it.
 
 ## Scope
 
-Every repository under `github.com/openabstractions` named `abstraction-*`,
-`service-*`, `addon-*` or `adopter-*` — today `abstraction-config`,
-`abstraction-download`, `abstraction-facade`, `abstraction-identity`,
-`abstraction-job`, `abstraction-logging`, `abstraction-model`, `abstraction-router`,
-`abstraction-storage`, `service-jobd`, `addon-synology`, `adopter-comfyui` —
-and `polite-monitor`. `abstraction-watch`, `abstraction-rights`, `abstraction-asks`,
-`abstraction-cas` and `abstraction-download-over-curl` join them at the release
-that creates them; `scripts/split.manifest` already publishes all five. The JSON
-reader, the caller-identity binding and the authorisation service are the parts
-that most deserve a look.
+This policy covers original OpenAbstractions code published under
+`github.com/openabstractions`: capability libraries, runtime services, providers,
+adapters, tools and installers.
 
-Not in scope: `abstractions`, `research` and `.github`, which hold nothing
-that runs; `appcontainer-notes`, which is private; forks of other projects,
-which are reported upstream; and the platform facilities the code delegates
-to (BITS, the OS keychain, a NAS, GitHub). Code that is not published is not
-in scope until it is.
+The capability repositories are `abstraction-asks`, `abstraction-cas`,
+`abstraction-config`, `abstraction-credentials`, `abstraction-download`,
+`abstraction-facade`, `abstraction-identity`, `abstraction-inference`,
+`abstraction-job`, `abstraction-logging`, `abstraction-model`,
+`abstraction-rights`, `abstraction-router`, `abstraction-storage` and
+`abstraction-watch`. Delivery and integration code includes
+`abstraction-download-over-curl`, `addon-synology`, `adopter-comfyui`,
+`docker-jobd`, `polite-monitor`, `redist` and the legacy `service-jobd`.
+Runtime, control-panel, gateway and example code in `abstractions` is covered too.
 
-No audit has been done. The JSON reader has had one day of one person's
-adversarial testing; nothing else has had any.
+For a fault in an upstream project or a platform facility, use that project's
+reporting channel. Report defects in OA's integration or authority boundaries
+here. Research documents and organization metadata do not provide running
+implementations.
+
+The caller-identity binding, authorization, credential handling and generated
+readers are useful areas to examine. Published coverage and release notes name
+the checks performed and their limits. Passing tests do not establish a complete
+security audit.
 
 ## Who ships it
 
