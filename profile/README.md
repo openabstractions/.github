@@ -10,7 +10,7 @@
 
 ## People running it
 
-- [Available now: 0.3.0](https://github.com/openabstractions/abstractions#available-now-030) — what the current release includes and its verification.
+- [Available runtime](https://github.com/openabstractions/abstractions#available-runtime) — what the current release includes and its verification.
 - [Download the latest release](https://github.com/openabstractions/redist/releases/latest) for Windows, Linux or macOS.
 - [Adoption guide](https://openabstractions.org/adopt.html) — dependency, runtime and setup expectations.
 
@@ -21,3 +21,4 @@
 - [Governance](https://github.com/openabstractions/.github/blob/main/GOVERNANCE.md) and [security reporting](https://github.com/openabstractions/.github/blob/main/SECURITY.md).
 
 Apache-2.0. See the selected repository's license and dependency notices.
+Maintained by Reinis Lusis.
