@@ -11,7 +11,7 @@
 ## People running it
 
 - [Available runtime](https://github.com/openabstractions/abstractions#available-runtime) — what the current release includes and its verification.
-- [Download the latest release](https://github.com/openabstractions/redist/releases/latest) for Windows, Linux or macOS.
+- [Download OpenAbstractions 0.8.0](https://github.com/openabstractions/redist/releases/tag/v0.8.0) for Windows, Linux or macOS. Read its known issues before installing or upgrading.
 - [Adoption guide](https://openabstractions.org/adopt.html) — dependency, runtime and setup expectations.
 
 ## Contributors
