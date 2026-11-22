@@ -11,7 +11,8 @@
 ## People running it
 
 - [Available runtime](https://github.com/openabstractions/abstractions#available-runtime) — what the current release includes and its verification.
-- [Download OpenAbstractions 0.8.0](https://github.com/openabstractions/redist/releases/tag/v0.8.0) for Windows, Linux or macOS. Read its known issues before installing or upgrading.
+- [Download OpenAbstractions 0.8.1](https://github.com/openabstractions/redist/releases/tag/v0.8.1) for Windows, Linux or macOS. Read its known issues before installing or upgrading. Verify downloads against [SHA256SUMS](https://github.com/openabstractions/redist/releases/download/v0.8.1/SHA256SUMS).
+- [What changed in 0.8.1](https://github.com/openabstractions/redist/releases/tag/v0.8.1) — local OpenCode improvements, destination chat selection, clearer permission prompts and installation repairs.
 - [Adoption guide](https://openabstractions.org/adopt.html) — dependency, runtime and setup expectations.
 
 ## Contributors
