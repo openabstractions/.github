@@ -40,7 +40,8 @@ None of this needs permission:
   implementation whoever maintains it; a fork that changes the corpus is a new
   contract and should say so.
 - No signing key, service, domain or account stands between you and building
-  what is published. There is no domain.
+  what is published. The project's domain is openabstractions.org; building
+  needs none of it.
 
 If a report sent the way `SECURITY.md` describes draws no reply from a person
 for ninety days, treat the organisation as unmaintained, fork, and say publicly
